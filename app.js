@@ -3,6 +3,12 @@ const app=express();
 const {books}=require('./books');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
+app.use(cors({
+    origin: '*',
+}))
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.get('/',(req,res)=>{
     res.json(books)
 })
@@ -20,6 +26,6 @@ app.all('*',(req,res,next)=>{
         message:"Page not found"
     })
 })
-app.listen(5000,()=>{
+app.listen( 10000,()=>{
     console.log("Listening on port 5000");
 })

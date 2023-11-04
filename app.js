@@ -4,6 +4,7 @@ const {books}=require('./books');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const port=10000;
 app.use(cors({
     origin: '*',
 }))
@@ -26,6 +27,6 @@ app.all('*',(req,res,next)=>{
         message:"Page not found"
     })
 })
-app.listen( 10000,()=>{
-    console.log("Listening on port 5000");
+app.listen( port,()=>{
+    console.log(`Server is Listening at port ${port}`);
 })

@@ -3,10 +3,6 @@ const app=express();
 const {books}=require('./books');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-  }));
 app.get('/',(req,res)=>{
     res.json(books)
 })

@@ -11,5 +11,6 @@ const books =[
     {id:8,name:'Using Information Techonology',year:'First_Year',url:'https://drive.google.com/file/d/1Qn4fWyQhEAwYS38Rr4D6-HhDr_Lluo2X/view?usp=drive_link'},
     {id:9,name:'Data Structure and Algorithms',year:'Second_Year',url:'https://drive.google.com/file/d/1sGSMyKMjVij-dTnBHnI9g6nOKJAP_4D3/view?usp=drive_link'},
     {id:10,name:'Digital Fundamentals',year:'Second_Year',url:'https://drive.google.com/file/d/1O41CEWMZpZJ4JLnW19zlQNj61niUA_1X/view?usp=drive_link'},
+    {id:11,name:'Web Development and Design Foundations with HTML 5',url:'https://drive.google.com/file/d/1gA5lZZmcBuFewCNQ8E2l-E8CAxAsrvTu/view?usp=drive_link'},
 ]
 module.exports={books}

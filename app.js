@@ -4,12 +4,14 @@ const {books}=require('./books');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const {authorization}=require('./authorization');
 const port=3000;
 app.use(cors({
     origin: '*',
 }))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(authorization)
 app.get('/books',(req,res)=>{
     res.json(books)
 })

@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const port=3000;
-const {logger}=require('./Logger')
 app.use(cors({
     origin: '*',
 }))

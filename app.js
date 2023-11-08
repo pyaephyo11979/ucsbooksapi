@@ -5,12 +5,13 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const port=3000;
+const {logger}=require('./Logger')
 app.use(cors({
     origin: '*',
 }))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.get('/',(req,res)=>{
+app.get('/books',(req,res)=>{
     res.json(books)
 })
 app.get('/books/year/:year',(req,res)=>{
@@ -28,5 +29,5 @@ app.all('*',(req,res,next)=>{
     })
 })
 app.listen( port,()=>{
-    console.log(`Server is Listening at port ${port}`);
+    console.log(`Server is Listening at http://localhost:${port}`);
 })

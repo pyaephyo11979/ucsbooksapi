@@ -11,8 +11,14 @@ const db = mongojs('mongodb+srv://admin:Pyare132605@ucsbooks.t0qcvni.mongodb.net
 const bodyParser = require('body-parser');
 //express-validator
 const{ body,param,validationResult } = require('express-validator');
-const port=3000;
+const port=process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://booksforucsstudents.onrender.com');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.get('/api/books/',(req,res)=>{

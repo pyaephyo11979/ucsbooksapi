@@ -3,15 +3,12 @@ const express = require('express');
 const app = express();
 //mongojs
 const mongojs = require('mongojs');
-const db = mongojs('mongodb+srv://admin:*****@ucsbooks.t0qcvni.mongodb.net/Books', ['books'],{
-    user:'admin',
-    password:'Pph132605@#@',
+const db = mongojs('mongodb+srv://admin:Pyare132605@ucsbooks.t0qcvni.mongodb.net/Books', ['books'],{
 });
 //bodyparser
 const bodyParser = require('body-parser');
 //express-validator
 const{ body,param,validationResult } = require('express-validator');
-
 const port=3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

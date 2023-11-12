@@ -3,8 +3,7 @@ const express = require('express');
 const app = express();
 //mongojs
 const mongojs = require('mongojs');
-const db = mongojs('mongodb+srv://admin:Pyare132605@ucsbooks.t0qcvni.mongodb.net/Books', ['books'],{
-});
+const db = mongojs('mongodb+srv://admin:Pyare132605@ucsbooks.t0qcvni.mongodb.net/Books', ['books'],);
 //bodyparser
 const bodyParser = require('body-parser');
 //express-validator

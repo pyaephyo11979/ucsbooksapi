@@ -1,34 +1,61 @@
+//expres
 const express = require('express');
-const app=express();
-const {books}=require('./books');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
-const {authorization}=require('./authorization');
+const app = express();
+//mongojs
+const mongojs = require('mongojs');
+const db = mongojs('mongodb+srv://admin:*****@ucsbooks.t0qcvni.mongodb.net/Books', ['books'],{
+    user:'admin',
+    password:'Pph132605@#@',
+});
+//bodyparser
+const bodyParser = require('body-parser');
+//express-validator
+const{ body,param,validationResult } = require('express-validator');
+
 const port=3000;
-app.use(cors({
-    origin: '*',
-}))
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(authorization)
-app.get('/books',(req,res)=>{
-    res.json(books)
-})
-app.get('/books/year/:year',(req,res)=>{
-    const {year}=req.params;
-    const bookes=books.filter((bk)=>{
-        if(bk.year===year){
-            return bk;
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.get('/api/books/',(req,res)=>{
+    const options=req.query;
+    const sort=options.sort || {};
+    const filter=options.filter || {} ;
+    const limit=parseInt(options.limit) || 15;
+    const page= parseInt(options.page) || 1;
+    const skip =(page-1)*limit;
+    for(i in sort){
+        sort[i]=parseInt(sort[i])
+    }
+    db.books.find(filter)
+    .sort(sort)
+    .skip(skip)
+    .limit(limit,function(err,data){
+        if(err){
+            res.sendStatus(500)
+        }else{
+            res.status(200).json({meta:{total:data.length},data})
         }
-    });
-    res.json(bookes)
-})
-app.all('*',(req,res,next)=>{
-    res.status(404).json({
-        message:"Page not found"
     })
 })
-app.listen( port,()=>{
-    console.log(`Server is Listening at http://localhost:${port}`);
+app.post('/api/books',[
+    body("name").not().isEmpty(),
+    body("year").not().isEmpty(),
+    body("img").not().isEmpty(),
+    body("url").not().isEmpty(),
+],(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()})
+    }
+    db.books.insert(req.body,(err,data)=>{
+        if(err){
+            res.sendStatus(500)
+        }else{
+            const _id =data._id;
+            res.append('Location',`/api/books/${_id}`);
+            return res.status(201).json({meta:{_id},data})
+        }
+    })
+})
+app.listen(port,()=>{
+    console.log(`Server is starting at https://localhost:${port}`);
 })

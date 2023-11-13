@@ -14,9 +14,9 @@ const{ body,param,validationResult } = require('express-validator');
 const port=process.env.PORT || 3000;
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://booksforucsstudents.onrender.com');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Access-Control-Allow-Headers', '*');
     next();
   });
 app.use(bodyParser.urlencoded({ extended: false }));

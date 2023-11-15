@@ -90,7 +90,7 @@ router.post('/registerAdmin',(req,res)=>{
         }
     })
 })
-router.get('/books/',auth,(req,res)=>{
+router.get('/books/',(req,res)=>{
     const options=req.query;
     const sort=options.sort || {};
     const filter=options.filter || {} ;

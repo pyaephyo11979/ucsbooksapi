@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongojs = require('mongojs');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const { body, param, validationResult } = require('express-validator')
 const db = mongojs('mongodb+srv://admin:Pyare132605@ucsbooks.t0qcvni.mongodb.net/Books', ['books','users'],{
     useNewUrlParser: true,
@@ -11,16 +12,21 @@ const jwt=require('jsonwebtoken');
 const secret="universityofComputerStudies Sittwe Books Drake";
 router.post('/login',(req,res)=>{
     const {usname,psw}=req.body;
-    db.users.find({username:usname,password:psw},(err,data)=>{
+    db.users.find({username:usname},(err,data)=>{
         if(err){
             res.sendStatus(500)
         }else{
             if(data.length){
-                const user=data[0];
-                const token=jwt.sign(user,secret);
-                return res.status(200).json({token})
+                if(bcrypt.compareSync(psw,data[0].password)){const user=data[0];
+                    const token=jwt.sign(user,secret);
+                    return res.status(200).json({token})
+
+                }
+                else{
+                    return res.sendStatus(403)
+                }
             }else{
-                return res.sendStatus(403)
+                return res.sendStatus(403);
             }
         }
     })
@@ -45,6 +51,7 @@ function onlyAdmin(req,res,next){
 }
 router.post('/register',(req,res)=>{
     const {usname,psw}=req.body;
+    const HashedPsw=bcrypt.hashSync(psw,10);
     const rl="user";
     db.users.find({username:usname},(err,data)=>{
         if(err){
@@ -53,7 +60,7 @@ router.post('/register',(req,res)=>{
             if(data.length){
                 return res.sendStatus(403)
             }else{
-                db.users.insert({username:usname,password:psw,role:rl},(err,data)=>{
+                db.users.insert({username:usname,password:HashedPsw,role:rl},(err,data)=>{
                     if(err){
                         res.sendStatus(500)
                     }else{
@@ -70,6 +77,7 @@ router.post('/register',(req,res)=>{
 router.post('/registerAdmin',(req,res)=>{
     const {usname,psw}=req.body;
     const rl = "admin";
+    const HashedPsw=bcrypt.hashSync(psw,10);
     db.users.find({username:usname},(err,data)=>{
         if(err){
             res.sendStatus(500)
@@ -77,7 +85,7 @@ router.post('/registerAdmin',(req,res)=>{
             if(data.length){
                 return res.sendStatus(403)
             }else{
-                db.users.insert({username:usname,password:psw,role:rl},(err,data)=>{
+                db.users.insert({username:usname,password:HashedPsw,role:rl},(err,data)=>{
                     if(err){
                         res.sendStatus(500)
                     }else{
